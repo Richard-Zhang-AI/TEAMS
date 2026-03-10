@@ -2,21 +2,17 @@ model: 'sbd_snake'
 network: 'ro_34'
 task: 'snake'
 resume: True
-gpus: [4]
+gpus: [0]
 multistage: False
 train_or_test: train
 random_num: 0
 
 
-# origin network：model_dir: "E:\\PyCharm-ZRC\\PyCharm-Project\\DeepSnake_remove_c\\data\\model\\MultipleSeg_1206_deepsnake_woDCNv2"
-# two heads network：model_dir: "E:/PyCharm-ZRC/PyCharm-Project/DeepSnake_remove_c/data/model/test_darnet/"
-# two heads network for new data:
-
 
 model_dir: "/data/model/"
 
-# 模型权重加载配置
-load_epoch: -1  # 指定要加载的epoch权重，-1表示加载最新权重
+
+load_epoch: -1  
 
 model_clinical_bert: "/lib/networks/clinical_bert/main_cb"
 yolo_pretrained: "/yolov8n.pt"
@@ -35,45 +31,34 @@ train:
     epoch: 401
     data_path: ''
 
-    # data_num: 219 # ROAS
     save_ep: 5
     visual_save_root: '/lib/ljh_visual/10_04_train'
 
-# 多任务损失权重（用于匹配数量级）
 loss_scales: {det: 1, det2: 1.0, ex: 1.0, py: 1.2, consistency: 0.1, contrastive: 0.1}
 
-# 对比损失参数
 contrastive_temperature: 0.1
 
 test:
     dataset: 'SbdMini'
     batch_size: 1
     img_path: '/Datasets/RAOS'
-    epoch: 89
+    epoch: -1
     visual_save_root: '/visual/test'
 
-# YOLO -> Snake 初始化的后处理（训练与测试保持一致）
-# 是否对 YOLO 的 BxHW 候选执行阈值+NMS，并作为蛇的初始轮廓
+
 use_nms_for_snake: true
-# 置信度阈值
 det_conf_thresh: 0.15
-# NMS IoU 阈值
 det_iou_thresh: 0.75
-# 每张图最多保留的检测数
 det_max_det: 100
-# 是否按类别做 NMS（true：类内 NMS；false：类无关 NMS）
 per_class_nms: true
 
-# 是否在训练/测试中用 GT 框替换预测框进行蛇初始化（消融用）
 use_gt_det: false
 
-#RAOS 是52，RAOS_new 是20。RAOS 是从89继续训练的，感觉效果不好，所以重新训练了 RAOS_new，用的是original
 heads:
   ct_hm: 52
   wh: 2
 segm_or_bbox: 'segm'
 
-# 添加类别-文本描述映射 (基于 RAOS 论文的 19 个器官)
 class_descriptions:
     "1": Liver. Located in the upper right abdomen beneath the diaphragm. In CT scans, it appears as a large, homogeneous, high-density organ. It is the largest solid organ in the abdomen, typically with a smooth surface, though shape may vary due to tumors or resection in this dataset. Designated as label 1.
     "2": Spleen. Located in the upper left abdomen, posterior to the stomach and lateral to the left kidney. It typically appears as a fist-sized, crescent or wedge-shaped organ with density similar to the liver. Designated as label 2.
