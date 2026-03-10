@@ -13,13 +13,13 @@ random_num: 0
 # two heads network for new data:
 
 
-model_dir: "/mnt/sda1/EnergeSnake_RAOS/data/model/"
+model_dir: "/data/model/"
 
 # 模型权重加载配置
 load_epoch: -1  # 指定要加载的epoch权重，-1表示加载最新权重
 
-model_clinical_bert: "/mnt/sda1/EnergeSnake_RAOS/lib/networks/clinical_bert/main_cb"
-yolo_pretrained: "/mnt/sdb1/leijh/EnergySnake1/yolov8n.pt"
+model_clinical_bert: "/lib/networks/clinical_bert/main_cb"
+yolo_pretrained: "/yolov8n.pt"
 freeze_snake: False
 freeze_yolo: False
 
@@ -33,7 +33,7 @@ train:
     dataset: 'SbdTrain'
     num_workers: 0
     epoch: 401
-    data_path: '/mnt/sdb1/leijh/EnergySnake1/Datasets/RAOS/RAOS-Real/CancerImages_Set1/processed_Tr_resized/'
+    data_path: ''
 
     # data_num: 219 # ROAS
     save_ep: 5
@@ -48,9 +48,9 @@ contrastive_temperature: 0.1
 test:
     dataset: 'SbdMini'
     batch_size: 1
-    img_path: '/mnt/sdb1/leijh/EnergySnake1/Datasets/RAOS/RAOS-Real/CancerImages_Set1/test_select_resized'
+    img_path: '/Datasets/RAOS'
     epoch: 89
-    visual_save_root: '/mnt/sda1/EnergeSnake_RAOS/visual/test_0309'
+    visual_save_root: '/visual/test'
 
 # YOLO -> Snake 初始化的后处理（训练与测试保持一致）
 # 是否对 YOLO 的 BxHW 候选执行阈值+NMS，并作为蛇的初始轮廓
