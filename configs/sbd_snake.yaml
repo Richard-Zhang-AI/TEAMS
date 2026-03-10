@@ -1,0 +1,103 @@
+model: 'sbd_snake'
+network: 'ro_34'
+task: 'snake'
+resume: True
+gpus: [4]
+multistage: False
+train_or_test: train
+random_num: 0
+
+
+# origin network：model_dir: "E:\\PyCharm-ZRC\\PyCharm-Project\\DeepSnake_remove_c\\data\\model\\MultipleSeg_1206_deepsnake_woDCNv2"
+# two heads network：model_dir: "E:/PyCharm-ZRC/PyCharm-Project/DeepSnake_remove_c/data/model/test_darnet/"
+# two heads network for new data:
+
+
+model_dir: "/mnt/sda1/EnergeSnake_RAOS/data/model/"
+
+# 模型权重加载配置
+load_epoch: -1  # 指定要加载的epoch权重，-1表示加载最新权重
+
+model_clinical_bert: "/mnt/sda1/EnergeSnake_RAOS/lib/networks/clinical_bert/main_cb"
+yolo_pretrained: "/mnt/sdb1/leijh/EnergySnake1/yolov8n.pt"
+freeze_snake: False
+freeze_yolo: False
+
+
+train:
+    optim: 'adam'
+    lr: 0.0005
+    milestones: (80, 120)
+    gamma: 0.5
+    batch_size: 4
+    dataset: 'SbdTrain'
+    num_workers: 0
+    epoch: 401
+    data_path: '/mnt/sdb1/leijh/EnergySnake1/Datasets/RAOS/RAOS-Real/CancerImages_Set1/processed_Tr_resized/'
+
+    # data_num: 219 # ROAS
+    save_ep: 5
+    visual_save_root: '/mnt/sda1/EnergeSnake_RAOS/lib/ljh_visual/10_04_train'
+
+# 多任务损失权重（用于匹配数量级）
+loss_scales: {det: 1, det2: 1.0, ex: 1.0, py: 1.2, consistency: 0.1, contrastive: 0.1}
+
+# 对比损失参数
+contrastive_temperature: 0.1
+
+test:
+    dataset: 'SbdMini'
+    batch_size: 1
+    img_path: '/mnt/sdb1/leijh/EnergySnake1/Datasets/RAOS/RAOS-Real/CancerImages_Set1/test_select_resized'
+    epoch: 89
+    visual_save_root: '/mnt/sda1/EnergeSnake_RAOS/visual/test_0309'
+
+# YOLO -> Snake 初始化的后处理（训练与测试保持一致）
+# 是否对 YOLO 的 BxHW 候选执行阈值+NMS，并作为蛇的初始轮廓
+use_nms_for_snake: true
+# 置信度阈值
+det_conf_thresh: 0.15
+# NMS IoU 阈值
+det_iou_thresh: 0.75
+# 每张图最多保留的检测数
+det_max_det: 100
+# 是否按类别做 NMS（true：类内 NMS；false：类无关 NMS）
+per_class_nms: true
+
+# 是否在训练/测试中用 GT 框替换预测框进行蛇初始化（消融用）
+use_gt_det: false
+
+#RAOS 是52，RAOS_new 是20。RAOS 是从89继续训练的，感觉效果不好，所以重新训练了 RAOS_new，用的是original
+heads:
+  ct_hm: 52
+  wh: 2
+segm_or_bbox: 'segm'
+
+# 添加类别-文本描述映射 (基于 RAOS 论文的 19 个器官)
+class_descriptions:
+    "1": Liver. Located in the upper right abdomen beneath the diaphragm. In CT scans, it appears as a large, homogeneous, high-density organ. It is the largest solid organ in the abdomen, typically with a smooth surface, though shape may vary due to tumors or resection in this dataset. Designated as label 1.
+    "2": Spleen. Located in the upper left abdomen, posterior to the stomach and lateral to the left kidney. It typically appears as a fist-sized, crescent or wedge-shaped organ with density similar to the liver. Designated as label 2.
+    "3": Left Kidney. A bean-shaped organ located in the left retroperitoneal space. In contrast-enhanced CT, the cortex enhances brightly. It is situated closer to the spleen and generally lies slightly higher than the right kidney. Designated as label 3.
+    "4": Right Kidney. A bean-shaped organ located in the right retroperitoneal space. It is situated inferior to the liver and generally lies slightly lower than the left kidney due to the liver's presence. Designated as label 4.
+    "5": Stomach. Located in the upper left quadrant. It is a hollow organ that appears as a J-shaped structure. Its appearance varies greatly depending on its contents (gas, fluid, or food) and distension. Designated as label 5.
+    "6": Gallbladder. A small, pear-shaped sac located beneath the right lobe of the liver. It typically appears as a fluid-filled, low-density structure. Note that in RAOS surgery cases, this organ may be missing or resected. Designated as label 6.
+    "7": Esophagus. A tubular structure passing through the diaphragm to connect to the stomach. In abdominal CT, it is seen in cross-section in the upper midline, often collapsed or containing a small amount of air. Designated as label 7.
+    "8": Pancreas. An elongated, lobulated organ located in the retroperitoneum behind the stomach. It is divided into head, body, and tail, extending from the duodenal loop on the right to the splenic hilum on the left. Designated as label 8.
+    "9": Duodenum. The first section of the small intestine, forming a C-shaped loop around the head of the pancreas. It connects the stomach to the jejunum and is retroperitoneal. Designated as label 9.
+    "10": Colon. The large intestine, framing the abdomen. It has a characteristic segmented appearance due to haustra. Its position is peripheral, encompassing the ascending, transverse, descending, and sigmoid colon. Designated as label 10.
+    "11": Intestine. Refers to the loops of the small intestine (jejunum and ileum) located centrally in the abdomen. They appear as multiple convoluted tubular structures bounded by the colon. Designated as label 11.
+    "12": Left Adrenal Gland. A small, Y-shaped or V-shaped endocrine gland located superior and medial to the upper pole of the left kidney. Designated as label 12.
+    "13": Right Adrenal Gland. A small, linear or V-shaped endocrine gland located superior and medial to the upper pole of the right kidney, often tucked behind the inferior vena cava. Designated as label 13.
+    "14": Rectum. The final straight portion of the large intestine, located in the pelvic cavity anterior to the sacrum. It connects the sigmoid colon to the anal canal. Designated as label 14.
+    "15": Bladder. A distensible, hollow muscular organ in the anterior pelvis. Its shape and size vary significantly with urine volume; it appears rounded or oval when full and collapsed when empty. Designated as label 15.
+    "16": Left Head of Femur. The rounded, ball-shaped upper end of the left thigh bone (femur) that articulates with the left pelvic acetabulum to form the hip joint. It appears as high-density bone. Designated as label 16.
+    "17": Right Head of Femur. The rounded, ball-shaped upper end of the right thigh bone (femur) that articulates with the right pelvic acetabulum to form the hip joint. It appears as high-density bone. Designated as label 17.
+    "18": Prostate. A walnut-sized gland in males located directly inferior to the bladder and anterior to the rectum. It surrounds the urethra and appears as a soft tissue density structure in the deep pelvis. Designated as label 18.
+    "19": Seminal Vesicle. Paired sacculated structures located posterior to the base of the bladder and superior to the prostate gland in males. They typically appear as "bow-tie" shaped soft tissue structures. Designated as label 19.
+
+max_length: 77
+overall_text: 'The provided images are abdominal CT scans from the RAOS dataset, designed to evaluate segmentation robustness in clinical scenarios. 
+    The dataset includes diverse cases such as routine diagnosis, radiotherapy planning, and post-operative monitoring. 
+    It features 19 annotated abdominal organs including major organs (Liver, Spleen, Kidneys), digestive tract structures (Stomach, Colon, Intestine, Rectum, Duodenum, Esophagus), 
+    and pelvic/retroperitoneal structures (Pancreas, Adrenals, Bladder, Prostate, Seminal Vesicles, Femoral Heads). 
+    A key characteristic is the presence of "corner cases" where organs may be partially or wholly resected due to surgery, or deformed by tumors.'
