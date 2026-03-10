@@ -37,7 +37,7 @@ train:
 
     # data_num: 219 # ROAS
     save_ep: 5
-    visual_save_root: '/mnt/sda1/EnergeSnake_RAOS/lib/ljh_visual/10_04_train'
+    visual_save_root: '/lib/ljh_visual/10_04_train'
 
 # 多任务损失权重（用于匹配数量级）
 loss_scales: {det: 1, det2: 1.0, ex: 1.0, py: 1.2, consistency: 0.1, contrastive: 0.1}
