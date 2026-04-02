@@ -69,3 +69,10 @@ python test.py
 
 - All metrics, logs, and visualizations will be saved to the directory specified by `test.visual_save_root` in `configs/sbd_snake.yaml`.
 - After testing finishes, inspect that directory to evaluate and visualize the model performance.
+
+<div align="center">
+  <img src="assets/results.png" width="88%" alt="TEAMS Results"/>
+</div>
+
+TEAMS achieves high instance segmentation performance on five challenging datasets of different imaging modalities and target organs (Column 11). It also outperforms state-of-the-art semantic segmentation (Columns 3$\sim$8) and deep snake (Columns 9/10) methods.
+
