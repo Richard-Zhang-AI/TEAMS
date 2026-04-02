@@ -83,16 +83,16 @@ def demo():
     network = make_network(cfg).cuda()
     load_network(network, cfg.model_dir, resume=cfg.resume, epoch=cfg.test.epoch)
     network.eval()
-    #print()
+    
     dataset = Dataset()
-    # 结果保存路径
+   
     save_root=cfg.demo_vis + "/{}".format(os.path.basename(cfg.model_dir))
     if not os.path.exists(save_root):
         os.makedirs(save_root)
     class_list=["S","L5","L4","L3","L2","L1","T12","T11","T10"]
-    iousum=0  # iou系数和
-    dicesumm=0  # Dice系数和
-    counter=0  # 用于计数处理了多少个批次的数据
+    iousum=0  
+    dicesumm=0  
+    counter=0  
 
     for batch,img_path in tqdm.tqdm(dataset):
         batch['inp'] = torch.FloatTensor(batch['inp'])[None].cuda()
@@ -106,13 +106,11 @@ def demo():
             mask_gt = np.zeros((512,512))
             for maskpath in mask_paths:
                 mask=cv2.imread(maskpath,0)
-                # 确保mask二值化：>0的设为1，否则为0
+                
                 mask_binary = (mask > 0).astype(np.float32)
-                mask_gt = np.maximum(mask_gt, mask_binary)  # 使用maximum避免重叠区域累加
-            # 确保mask_gt的值在0-1之间
+                mask_gt = np.maximum(mask_gt, mask_binary)  
+            # mask_gt——0-1
             mask_gt = np.clip(mask_gt, 0, 1)
-            #cv2.imwrite("E:\PyCharm-ZRC\PyCharm-Project\DeepSnake_remove_c\zrc_visual\new_data_result\check_mask_gt.jpg",mask_gt*255)
-            #cv2.imwrite("E:\PyCharm-ZRC\PyCharm-Project\DeepSnake_remove_c\zrc_visual\new_data_result\check_mask_pre.jpg",mask_pre*255)
             print(cal_iou(mask_pre,mask_gt))
             iousum+=cal_iou(mask_pre,mask_gt)
             dicesumm+=cal_dice(cal_iou(mask_pre,mask_gt))
@@ -128,10 +126,10 @@ def demo():
 
             if visual:
                 for j in range(poly[2].shape[0]):
-                    poly2visual=3.75*np.array(poly[2][j,...].cpu())          # 在图像 img 上绘制文本。文本内容是类别名称和检测的置信度
+                    poly2visual=3.75*np.array(poly[2][j,...].cpu())         
                     cv2.putText(img, class_list[int(detection[j,5])]+"_"+"{:.2f}".format(detection[j,4]), (int(3.75*(detection[j,0]+detection[j,2])/2), int(3.75*(detection[j,1]+detection[j,3])/2)), cv2.FONT_HERSHEY_COMPLEX, 0.5, (100, 200, 200), 1)
-                    # 遍历缩放后的多边形 poly2visual 的所有顶点
-                    for i in range(poly2visual.shape[0]):                    # 在图像上绘制连接多边形顶点的线段
+                    
+                    for i in range(poly2visual.shape[0]):                    
                         cv2.line(img, (int(poly2visual[i,0]),int(poly2visual[i,1])), (int(poly2visual[(i+1)%poly2visual.shape[0],0]),int(poly2visual[(i+1)%poly2visual.shape[0],1])), color=(255, 0, 255), thickness=2)
         if visual:
             cv2.imwrite(save_root+"/{}".format(os.path.basename(img_path)),img)
