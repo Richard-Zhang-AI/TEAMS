@@ -1,6 +1,6 @@
 
 
-This repository contains the official implementation of **TEAMS: Text-prompted spatiotEmporal dual-heAd Mamba Snake**.  
+# This repository contains the official implementation of **TEAMS: Text-prompted spatiotEmporal dual-heAd Mamba Snake**.  
 
 ## Environment Setup
 
