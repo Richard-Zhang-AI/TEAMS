@@ -1,6 +1,12 @@
 
 
-# This repository contains the official implementation of **TEAMS: Text-prompted spatiotEmporal dual-heAd Mamba Snake**.  
+# This repository contains the official implementation of **TEAMS: Text-prompted spatiotEmporal dual-heAd Mamba Snake**.
+
+<div align="center">
+  <img src="assets/framework.png" width="88%" alt="TEAMS Framework"/>
+</div>
+
+**Innovation and advantage of our TEAMS:**  TEAMS is a new deep snake method that captures spatial and temporal context during snake evolution (in SSES), dynamically adapts contour smoothness to fit geometric details (in CMAM), integrates cues from textual descriptions, and feeds evolved contour features to enhance base detection (in TCDHS) with dual-head consistency feedback.
 
 ## Environment Setup
 
