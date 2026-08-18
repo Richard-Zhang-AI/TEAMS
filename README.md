@@ -3,7 +3,7 @@
 
 # TEAMS: Text-prompted spatiotEmporal dual-heAd Mamba Snake
 
-[![Journal](https://img.shields.io/badge/Accepted%20by-Medical%20Image%20Analysis-007EC6?style=for-the-badge&logo=elsevier&logoColor=white)](https://www.sciencedirect.com/journal/medical-image-analysis)
+[![Journal](https://img.shields.io/badge/Accepted%20by-Medical%20Image%20Analysis-007EC6?style=for-the-badge&logo=elsevier&logoColor=white)](https://www.researchgate.net/publication/412265680_TEAMS_Text-prompted_spatiotEmporal_dual-heAd_Mamba_Snake)
 [![arXiv](https://img.shields.io/badge/arXiv-2403.xxxxx-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2403.xxxxx)
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models%20%26%20Data-FFD21E?style=for-the-badge)](https://huggingface.co/Richard-ZZZZZ/TEAMS/tree/main)
 
@@ -97,6 +97,6 @@ If you find our work, code, or datasets helpful in your research, please conside
   author  = {Your Name and Co-authors},
   journal = {Medical Image Analysis},
   publisher = {Elsevier},
-  year    = {2024}
+  year    = {2026}
 }
 
