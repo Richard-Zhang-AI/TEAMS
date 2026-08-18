@@ -1,11 +1,21 @@
 
-
-# This repository contains the official implementation of **TEAMS: Text-prompted spatiotEmporal dual-heAd Mamba Snake**.
-
 <div align="center">
-  <img src="assets/framework.png" width="88%" alt="TEAMS Framework"/>
-</div>
 
+# TEAMS: Text-prompted spatiotEmporal dual-heAd Mamba Snake
+
+[![Journal](https://img.shields.io/badge/Accepted%20by-Medical%20Image%20Analysis-007EC6?style=for-the-badge&logo=elsevier&logoColor=white)](https://www.sciencedirect.com/journal/medical-image-analysis)
+[![arXiv](https://img.shields.io/badge/arXiv-2403.xxxxx-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2403.xxxxx)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models%20%26%20Data-FFD21E?style=for-the-badge)](https://huggingface.co/Richard-ZZZZZ/TEAMS/tree/main)
+
+<p align="center">
+  <strong>🎉 This work has been officially accepted by <em>Medical Image Analysis (MedIA)</em>!</strong>
+</p>
+
+---
+
+<img src="assets/framework.png" width="88%" alt="TEAMS Framework"/>
+
+</div>
 **Innovation and advantage of our TEAMS:**  TEAMS is a new deep snake method that captures spatial and temporal context during snake evolution (in SSES), dynamically adapts contour smoothness to fit geometric details (in CMAM), integrates cues from textual descriptions, and feeds evolved contour features to enhance base detection (in TCDHS) with dual-head consistency feedback.
 
 ## Environment Setup
@@ -74,5 +84,19 @@ python test.py
   <img src="assets/results.png" width="88%" alt="TEAMS Results"/>
 </div>
 
-TEAMS achieves high instance segmentation performance on five challenging datasets of different imaging modalities and target organs (Column 11). It also outperforms state-of-the-art semantic segmentation (Columns 3$\sim$8) and deep snake (Columns 9/10) methods.
+**Summary:** TEAMS achieves superior instance segmentation performance across five challenging multi-modal datasets and diverse target organs (Column 11), consistently outperforming state-of-the-art semantic segmentation (Columns 3–8) and deep snake methods (Columns 9–10).
+
+
+## 📝 Citation
+
+If you find our work, code, or datasets helpful in your research, please consider citing:
+
+```bibtex
+@article{teams_media,
+  title   = {TEAMS: Text-prompted spatiotEmporal dual-heAd Mamba Snake},
+  author  = {Your Name and Co-authors},
+  journal = {Medical Image Analysis},
+  publisher = {Elsevier},
+  year    = {2024}
+}
 
